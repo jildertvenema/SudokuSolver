@@ -1,0 +1,6 @@
+f:\users\jildert\documents\visual studio 2017\Projects\Sudoku Solver\SudokuConsole\bin\Debug\SudokuConsole.exe.config
+f:\users\jildert\documents\visual studio 2017\Projects\Sudoku Solver\SudokuConsole\bin\Debug\SudokuConsole.exe
+f:\users\jildert\documents\visual studio 2017\Projects\Sudoku Solver\SudokuConsole\bin\Debug\SudokuConsole.pdb
+f:\users\jildert\documents\visual studio 2017\Projects\Sudoku Solver\SudokuConsole\obj\Debug\SudokuConsole.csprojResolveAssemblyReference.cache
+f:\users\jildert\documents\visual studio 2017\Projects\Sudoku Solver\SudokuConsole\obj\Debug\SudokuConsole.exe
+f:\users\jildert\documents\visual studio 2017\Projects\Sudoku Solver\SudokuConsole\obj\Debug\SudokuConsole.pdb

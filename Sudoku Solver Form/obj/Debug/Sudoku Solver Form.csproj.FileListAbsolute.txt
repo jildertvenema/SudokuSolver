@@ -1,0 +1,9 @@
+f:\users\jildert\documents\visual studio 2017\Projects\Sudoku Solver\Sudoku Solver Form\bin\Debug\Sudoku Solver Form.exe.config
+f:\users\jildert\documents\visual studio 2017\Projects\Sudoku Solver\Sudoku Solver Form\bin\Debug\Sudoku Solver Form.exe
+f:\users\jildert\documents\visual studio 2017\Projects\Sudoku Solver\Sudoku Solver Form\bin\Debug\Sudoku Solver Form.pdb
+f:\users\jildert\documents\visual studio 2017\Projects\Sudoku Solver\Sudoku Solver Form\obj\Debug\Sudoku Solver Form.csprojResolveAssemblyReference.cache
+f:\users\jildert\documents\visual studio 2017\Projects\Sudoku Solver\Sudoku Solver Form\obj\Debug\Sudoku_Solver_Form.Form1.resources
+f:\users\jildert\documents\visual studio 2017\Projects\Sudoku Solver\Sudoku Solver Form\obj\Debug\Sudoku_Solver_Form.Properties.Resources.resources
+f:\users\jildert\documents\visual studio 2017\Projects\Sudoku Solver\Sudoku Solver Form\obj\Debug\Sudoku Solver Form.csproj.GenerateResource.Cache
+f:\users\jildert\documents\visual studio 2017\Projects\Sudoku Solver\Sudoku Solver Form\obj\Debug\Sudoku Solver Form.exe
+f:\users\jildert\documents\visual studio 2017\Projects\Sudoku Solver\Sudoku Solver Form\obj\Debug\Sudoku Solver Form.pdb
