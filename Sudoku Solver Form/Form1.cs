@@ -45,8 +45,9 @@ namespace Sudoku_Solver_Form
                 }
             }
 
-
+            DateTime dt = DateTime.Now;
             bord = sudokuSolver.SolveBoard(bord);
+            richTextBox1.Text = (DateTime.Now.Second - dt.Second).ToString() + "s en " + sudokuSolver.BackTracks.ToString();
 
             int indexCount = 0;
             for (int x = 0; x <= 8; x++)
@@ -71,8 +72,5 @@ namespace Sudoku_Solver_Form
                 }
             }
         }
-
-
-
     }
 }

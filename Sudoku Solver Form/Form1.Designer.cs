@@ -110,6 +110,7 @@
             this.textBox80 = new System.Windows.Forms.TextBox();
             this.textBox81 = new System.Windows.Forms.TextBox();
             this.solveButton = new System.Windows.Forms.Button();
+            this.richTextBox1 = new System.Windows.Forms.RichTextBox();
             this.SuspendLayout();
             // 
             // textBox1
@@ -770,11 +771,20 @@
             this.solveButton.UseVisualStyleBackColor = true;
             this.solveButton.Click += new System.EventHandler(this.solveButton_Click);
             // 
+            // richTextBox1
+            // 
+            this.richTextBox1.Location = new System.Drawing.Point(90, 309);
+            this.richTextBox1.Name = "richTextBox1";
+            this.richTextBox1.Size = new System.Drawing.Size(166, 23);
+            this.richTextBox1.TabIndex = 82;
+            this.richTextBox1.Text = "";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(278, 376);
+            this.Controls.Add(this.richTextBox1);
             this.Controls.Add(this.solveButton);
             this.Controls.Add(this.textBox81);
             this.Controls.Add(this.textBox80);
@@ -948,6 +958,7 @@
         private System.Windows.Forms.TextBox textBox80;
         private System.Windows.Forms.TextBox textBox81;
         private System.Windows.Forms.Button solveButton;
+        private System.Windows.Forms.RichTextBox richTextBox1;
     }
 }
 
