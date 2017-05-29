@@ -72,5 +72,13 @@ namespace Sudoku_Solver_Form
                 }
             }
         }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            foreach(Control c in textBoxes)
+            {
+                c.Text = "";
+            }
+        }
     }
 }

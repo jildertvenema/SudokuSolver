@@ -10,7 +10,10 @@ namespace Sudoku_Solver_Form
     {
         private const int size = 9;
         private int[,] bord = new int[size, size];
+
         private int[,] inputBord = new int[size, size];
+
+
         public int backtracks;
 
         public int[,] SolveBoard(int[,] InputBord)
