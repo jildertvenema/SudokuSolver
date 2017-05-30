@@ -8,14 +8,15 @@ namespace Sudoku_Solver_Form
         private int[,] bord;
         private int[,] inputBord;
         private NietMogelijk[,] nietMogelijk;
-        private int maxBackTracks = 20000000;
-
+        private int maxBackTracks = 40000000;
+        private bool enableScan = true;
         private int backTracks;
 
         public int BackTracks { get { return backTracks; } }
+        public bool EnableScan { get { return enableScan; }set { enableScan = value; } }
 
         /// <summary>
-        /// 
+        /// Een sudoku bord oplossen.
         /// </summary>
         /// <param name="InputBord">2 dimentionale array met ingevulde getallen door de gebruiker.</param>
         /// <returns>Returned het opgeloste en ingevulde bord.</returns>
@@ -36,10 +37,10 @@ namespace Sudoku_Solver_Form
                 }
             }
 
-            while (ScanSudoku())
-            {
-                //zolang er gescanned kan worden, doe het
-            }
+
+            //de scan gaat kijken of hij al al getallen in kan vullen, en zolang dat lukt, gaat hij door
+            if (enableScan) ScanSudoku();
+
 
             if (Solve(0, 0))
             {
@@ -51,7 +52,11 @@ namespace Sudoku_Solver_Form
             }
         }
 
-        private bool ScanSudoku()
+        /// <summary>
+        /// Kijkt of er getallen ingevuld kunnen worden voor het backtracking procces begint, kijkende naar de sudoku trucjes/regels.
+        /// Roept zichzelf recursief aan, totdat er geen verandering meer kan worden gedaan.
+        /// </summary>
+        private void ScanSudoku()
         {
             bool succes = false;
             //Niet mogelijke getallen toevoegen
@@ -157,6 +162,7 @@ namespace Sudoku_Solver_Form
                 }
             }
 
+            //hier kijk ik of er ergens op een vakje/x-as/y-as 8 getallen niet mogelijk zijn, wat betekend dat er 1 mogelijk is
             for (int x = 0; x < 9; x++)
             {
                 for (int y = 0; y < 9; y++)
@@ -177,7 +183,7 @@ namespace Sudoku_Solver_Form
                 }
             }
 
-            //rule 4
+            //rule 4 op de x-as
             for (int x = 0; x < 9; x++)
             {
                 int vakXStart = 0;
@@ -256,18 +262,95 @@ namespace Sudoku_Solver_Form
                 }
             }
 
+            //rule 4 op de y-as
+            for (int x = 0; x < 9; x++)
+            {
+                int vakXStart = 0;
+                int vakYStart = 0;
 
-            //true als er een nieuw getal gevonden is
-            return succes;
+                //start x krijgen
+                if (x <= 2)
+                {
+                    vakXStart = 0;
+                }
+                else
+                {
+                    if (x <= 5) vakXStart = 3;
+                    else if (x <= 8) vakXStart = 6;
+                }
 
+                for (int y = 0; y < 9; y++)
+                {
+                    //start y krijgen
+                    if (y <= 2)
+                    {
+                        vakYStart = 0;
+                    }
+                    else
+                    {
+                        if (y <= 5) vakYStart = 3;
+                        else if (y <= 8) vakYStart = 6;
+                    }
+
+                    for (int value = 1; value <= 9; value++)
+                    {
+                        bool valueAlleenInRow = true;
+
+                        //als getal mogelijk is
+                        if (!nietMogelijk[x, y].Numbers.Contains(value))
+                        {
+                            //en niet in de andere rows zit
+                            for (int i = vakXStart; i < vakXStart + 3; i++)
+                            {
+                                for (int t = vakYStart; t < vakYStart + 3; t++)
+                                {
+                                    //zelfde rij, continue
+                                    if (t == x) continue;
+
+                                    // als hij wel mogelijk is, false
+                                    if (!nietMogelijk[i, t].Numbers.Contains(value))
+                                    {
+                                        valueAlleenInRow = false;
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+                        else
+                        {
+                            valueAlleenInRow = false;
+                        }
+
+                        if (valueAlleenInRow)
+                        {
+                            //value kan alleen in deze rij
+                            for (int rowX = 0; rowX <= 8; rowX++)
+                            {
+                                //eigen row skippen
+                                if (rowX == vakXStart) rowX += 3;
+                                if (rowX > 8) break;
+                                if (!nietMogelijk[rowX, y].Numbers.Contains(value))
+                                {
+                                    nietMogelijk[rowX, y].Numbers.Add(value);
+                                    succes = true;
+                                }
+
+                            }
+                        }
+                    }
+                }
+            }
+
+            //als er een nieuw getal gevonden is, scan opnieuw
+            if (succes) ScanSudoku();
         }
 
 
         /// <summary>
-        /// 
+        /// De functie die het bord oplost, kijkt of elke value mogelijk is op een x en y positie, en plaatst deze.
         /// </summary>
-        /// <param name="x"></param>
-        /// <param name="y"></param>
+        /// <param name="x">x-positie</param>
+        /// <param name="y">y-positie</param>
         /// <returns></returns>
         private bool Solve(int x, int y)
         {
@@ -304,14 +387,13 @@ namespace Sudoku_Solver_Form
         }
 
         /// <summary>
-        /// Returned true als de meegegeven value geplaatst mag worden op het punt van de x en y coördinaten, gekeken naar de regels van sudoku.
-        /// Anders returned de functie false.
+        /// Controleren of een value op de x en y positie mag staan.
         /// </summary>
         /// <param name="x">De x-positie.</param>
         /// <param name="y">De y-positie.</param>
         /// <param name="value">Getal dat gecontroleerd moet worden op de coördinaten.</param>
         /// <returns>
-        /// Returned true of false.
+        /// Returned true als het getal op de positie mag staan.
         /// </returns>
         private bool IsAllowed(int x, int y, int value)
         {

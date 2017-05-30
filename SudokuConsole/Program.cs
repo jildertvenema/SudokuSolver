@@ -21,7 +21,7 @@ namespace SudokuConsole
 
             dt = DateTime.Now;
             sudoku = s.SolveBoard(sudoku);
-            Console.WriteLine(DateTime.Now - dt));
+            Console.WriteLine(DateTime.Now - dt);
             Console.ReadKey();
 
             foreach (int i in sudoku)

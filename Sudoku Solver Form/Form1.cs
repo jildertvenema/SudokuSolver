@@ -14,8 +14,9 @@ namespace Sudoku_Solver_Form
     {
         private List<Control> textBoxes = new List<Control>();
         private SudokuSolver sudokuSolver = new SudokuSolver();
-        private int[,] indexen = new int[9, 9];
-        private int[,] bord = new int[9, 9];
+        private static int size = 9;
+        private int[,] indexen = new int[size, size];
+        private int[,] bord = new int[size, size];
 
         public Form1()
         {
@@ -45,9 +46,15 @@ namespace Sudoku_Solver_Form
                 }
             }
 
+            sudokuSolver.EnableScan = checkBox1.Checked;
+
             DateTime dt = DateTime.Now;
             bord = sudokuSolver.SolveBoard(bord);
-            richTextBox1.Text = (DateTime.Now.Second - dt.Second).ToString() + "s en " + sudokuSolver.BackTracks.ToString();
+            string DeltaTime = (DateTime.Now - dt).ToString();
+            if (DeltaTime.Length > 15) DeltaTime = DeltaTime.Substring(0,15);
+
+            label3.Text = DeltaTime;
+            labelBackTracks.Text = sudokuSolver.BackTracks.ToString();
 
             int indexCount = 0;
             for (int x = 0; x <= 8; x++)
@@ -79,6 +86,14 @@ namespace Sudoku_Solver_Form
             {
                 c.Text = "";
             }
+            label3.Text = "";
+            labelBackTracks.Text = "";
+
+        }
+
+        private void label3_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
