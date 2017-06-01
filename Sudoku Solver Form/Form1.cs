@@ -31,6 +31,12 @@ namespace Sudoku_Solver_Form
                     indexCount++;
                 }
             }
+
+            checkBox1.BackColor = Color.White;
+            sudokuSolver.ScanComplete += delegate
+            {
+                checkBox1.BackColor = Color.Green;
+            };
         }
 
         private void solveButton_Click(object sender, EventArgs e)
@@ -88,7 +94,7 @@ namespace Sudoku_Solver_Form
             }
             label3.Text = "";
             labelBackTracks.Text = "";
-
+            checkBox1.BackColor = Color.White;
         }
 
         private void label3_Click(object sender, EventArgs e)

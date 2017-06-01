@@ -12,6 +12,7 @@ namespace Sudoku_Solver_Form
         private bool enableScan = true;
         private int backTracks;
 
+        public event EventHandler ScanComplete;
         public int BackTracks { get { return backTracks; } }
         public bool EnableScan { get { return enableScan; }set { enableScan = value; } }
 
@@ -305,7 +306,7 @@ namespace Sudoku_Solver_Form
                                 for (int t = vakYStart; t < vakYStart + 3; t++)
                                 {
                                     //zelfde rij, continue
-                                    if (t == x) continue;
+                                    if (t == y) continue;
 
                                     // als hij wel mogelijk is, false
                                     if (!nietMogelijk[i, t].Numbers.Contains(value))
@@ -343,6 +344,7 @@ namespace Sudoku_Solver_Form
 
             //als er een nieuw getal gevonden is, scan opnieuw
             if (succes) ScanSudoku();
+            else ScanComplete.Invoke(this, EventArgs.Empty);
         }
 
 
