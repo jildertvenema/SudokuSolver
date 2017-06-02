@@ -18,6 +18,7 @@ namespace Sudoku_Solver_Form
         private int[,] indexen = new int[size, size];
         private int[,] bord = new int[size, size];
         private DateTime dt;
+        private Random random = new Random();
 
         public Form1()
         {
@@ -64,6 +65,20 @@ namespace Sudoku_Solver_Form
 
             sudokuSolver.EnableScan = checkBox1.Checked;
 
+            bool bordIsLeeg = true;
+            foreach (int n in bord) if (n != 0)
+            {
+                bordIsLeeg = false;
+                break;
+            }
+
+            //random getallen invullen als hij leeg is, voor de lol
+            if (bordIsLeeg)
+            {
+                for(int val = 1; val <= 3; val++)
+                RandomPos(val);
+            }
+
             dt = DateTime.Now;
             bord = sudokuSolver.SolveBoard(bord);
             string DeltaTime = (DateTime.Now - dt).ToString();
@@ -84,6 +99,19 @@ namespace Sudoku_Solver_Form
             }
 
 
+        }
+
+
+        private void RandomPos(int value)
+        {
+            if (bord[random.Next(0, 8), random.Next(0, 8)] == 0)
+            {
+                bord[random.Next(0, 8), random.Next(0, 8)] = value;
+            }
+            else
+            {
+                RandomPos(value);
+            }
         }
 
         private void GetAllControl()
