@@ -116,6 +116,8 @@
             this.labelBackTracks = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.checkBox1 = new System.Windows.Forms.CheckBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // textBox1
@@ -902,7 +904,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(93, 333);
+            this.label1.Location = new System.Drawing.Point(93, 344);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(64, 14);
             this.label1.TabIndex = 84;
@@ -911,7 +913,7 @@
             // labelBackTracks
             // 
             this.labelBackTracks.AutoSize = true;
-            this.labelBackTracks.Location = new System.Drawing.Point(189, 333);
+            this.labelBackTracks.Location = new System.Drawing.Point(189, 344);
             this.labelBackTracks.Name = "labelBackTracks";
             this.labelBackTracks.Size = new System.Drawing.Size(0, 14);
             this.labelBackTracks.TabIndex = 85;
@@ -919,30 +921,49 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(189, 365);
+            this.label3.Location = new System.Drawing.Point(93, 309);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(34, 14);
             this.label3.TabIndex = 86;
             this.label3.Text = "Time";
-            this.label3.Click += new System.EventHandler(this.label3_Click);
             // 
             // checkBox1
             // 
             this.checkBox1.AutoSize = true;
             this.checkBox1.Checked = true;
             this.checkBox1.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBox1.Location = new System.Drawing.Point(96, 364);
+            this.checkBox1.Location = new System.Drawing.Point(96, 371);
             this.checkBox1.Name = "checkBox1";
             this.checkBox1.Size = new System.Drawing.Size(92, 18);
             this.checkBox1.TabIndex = 88;
             this.checkBox1.Text = "Enable Scan";
             this.checkBox1.UseVisualStyleBackColor = true;
             // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(189, 372);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(34, 14);
+            this.label2.TabIndex = 89;
+            this.label2.Text = "Time";
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(12, 309);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(66, 14);
+            this.label4.TabIndex = 90;
+            this.label4.Text = "Solve Time";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 14F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(278, 405);
+            this.Controls.Add(this.label4);
+            this.Controls.Add(this.label2);
             this.Controls.Add(this.checkBox1);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.labelBackTracks);
@@ -1129,6 +1150,8 @@
         private System.Windows.Forms.Label labelBackTracks;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.CheckBox checkBox1;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label label4;
     }
 }
 

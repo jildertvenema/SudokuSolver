@@ -17,6 +17,7 @@ namespace Sudoku_Solver_Form
         private static int size = 9;
         private int[,] indexen = new int[size, size];
         private int[,] bord = new int[size, size];
+        private DateTime dt;
 
         public Form1()
         {
@@ -32,10 +33,19 @@ namespace Sudoku_Solver_Form
                 }
             }
 
-            checkBox1.BackColor = Color.White;
+            checkBox1.BackColor = this.BackColor;
+
+            label4.Text = "";
+            label3.Text = "";
+            label2.Text = "";
+
             sudokuSolver.ScanComplete += delegate
             {
-                checkBox1.BackColor = Color.Green;
+                string DeltaTime = (DateTime.Now - dt).ToString();
+                if (DeltaTime.Length > 15) DeltaTime = DeltaTime.Substring(0, 15);
+
+                checkBox1.BackColor = Color.LightGreen;
+                label2.Text = DeltaTime;
             };
         }
 
@@ -54,13 +64,14 @@ namespace Sudoku_Solver_Form
 
             sudokuSolver.EnableScan = checkBox1.Checked;
 
-            DateTime dt = DateTime.Now;
+            dt = DateTime.Now;
             bord = sudokuSolver.SolveBoard(bord);
             string DeltaTime = (DateTime.Now - dt).ToString();
             if (DeltaTime.Length > 15) DeltaTime = DeltaTime.Substring(0,15);
 
             label3.Text = DeltaTime;
             labelBackTracks.Text = sudokuSolver.BackTracks.ToString();
+            label4.Text = "Solve Time";
 
             int indexCount = 0;
             for (int x = 0; x <= 8; x++)
@@ -93,13 +104,12 @@ namespace Sudoku_Solver_Form
                 c.Text = "";
             }
             label3.Text = "";
+            label4.Text = "";
+            label2.Text = "";
+
             labelBackTracks.Text = "";
-            checkBox1.BackColor = Color.White;
+            checkBox1.BackColor = this.BackColor;
         }
 
-        private void label3_Click(object sender, EventArgs e)
-        {
-
-        }
     }
 }

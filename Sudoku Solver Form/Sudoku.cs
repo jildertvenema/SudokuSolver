@@ -11,6 +11,7 @@ namespace Sudoku_Solver_Form
         private int maxBackTracks = 40000000;
         private bool enableScan = true;
         private int backTracks;
+        private int scanCount;
 
         public event EventHandler ScanComplete;
         public int BackTracks { get { return backTracks; } }
@@ -27,6 +28,7 @@ namespace Sudoku_Solver_Form
             inputBord = InputBord;
             backTracks = 0;
             nietMogelijk = new NietMogelijk[size, size];
+            scanCount = 0;
 
             //bord vullen met input getallen
             for (int x = 0; x < size; x++)
@@ -59,6 +61,7 @@ namespace Sudoku_Solver_Form
         /// </summary>
         private void ScanSudoku()
         {
+            scanCount++;
             bool rule1Succes = false;
 
             //Niet mogelijke getallen toevoegen
