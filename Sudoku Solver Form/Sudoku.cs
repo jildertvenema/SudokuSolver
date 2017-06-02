@@ -59,7 +59,8 @@ namespace Sudoku_Solver_Form
         /// </summary>
         private void ScanSudoku()
         {
-            bool succes = false;
+            bool rule1Succes = false;
+
             //Niet mogelijke getallen toevoegen
             for (int x = 0; x < 9; x++)
             {
@@ -76,10 +77,16 @@ namespace Sudoku_Solver_Form
                         if (!IsAllowed(x,y,value) && !nietMogelijk[x, y].Numbers.Contains(value))
                         {
                             nietMogelijk[x, y].Numbers.Add(value);
-                            succes = true;
+                            rule1Succes = true;
                         }
                     }
                 }
+            }
+
+            if (rule1Succes)
+            {
+                ScanSudoku();
+                return;
             }
 
             //kijken welke getallen we nu al weten
@@ -152,10 +159,11 @@ namespace Sudoku_Solver_Form
                         //we weten zeker dat het value moet zijn
                         if (place)
                         {
-                            succes = true;
                             bord[x, y] = value;
                             inputBord[x, y] = value;
                             nietMogelijk[x, y].NietsMogelijk();
+                            ScanSudoku();
+                            return;
                         }
 
                     }
@@ -174,10 +182,11 @@ namespace Sudoku_Solver_Form
                         {
                             if (!nietMogelijk[x, y].Numbers.Contains(value))
                             {
-                                succes = true;
                                 bord[x, y] = value;
                                 inputBord[x, y] = value;
                                 nietMogelijk[x, y].NietsMogelijk();
+                                ScanSudoku();
+                                return;
                             }
                         }
                     }
@@ -254,7 +263,8 @@ namespace Sudoku_Solver_Form
                                 if (!nietMogelijk[x, rowY].Numbers.Contains(value))
                                 {
                                     nietMogelijk[x, rowY].Numbers.Add(value);
-                                    succes = true;
+                                    ScanSudoku();
+                                    return;
                                 }
 
                             }
@@ -333,7 +343,8 @@ namespace Sudoku_Solver_Form
                                 if (!nietMogelijk[rowX, y].Numbers.Contains(value))
                                 {
                                     nietMogelijk[rowX, y].Numbers.Add(value);
-                                    succes = true;
+                                    ScanSudoku();
+                                    return;
                                 }
 
                             }
@@ -342,9 +353,7 @@ namespace Sudoku_Solver_Form
                 }
             }
 
-            //als er een nieuw getal gevonden is, scan opnieuw
-            if (succes) ScanSudoku();
-            else ScanComplete.Invoke(this, EventArgs.Empty);
+            ScanComplete.Invoke(this, EventArgs.Empty);
         }
 
 
