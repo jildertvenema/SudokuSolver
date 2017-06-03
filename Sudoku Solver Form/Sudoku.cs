@@ -8,7 +8,7 @@ namespace Sudoku_Solver_Form
         private int[,] bord;
         private int[,] inputBord;
         private NietMogelijk[,] nietMogelijk;
-        private int maxBackTracks = 40000000;
+        private int maxBackTracks = int.MaxValue;
         private bool enableScan = true;
         private int backTracks;
         private int scanCount;
