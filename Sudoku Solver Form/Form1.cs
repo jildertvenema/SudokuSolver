@@ -65,20 +65,6 @@ namespace Sudoku_Solver_Form
 
             sudokuSolver.EnableScan = checkBox1.Checked;
 
-            bool bordIsLeeg = true;
-            foreach (int n in bord) if (n != 0)
-            {
-                bordIsLeeg = false;
-                break;
-            }
-
-            //random getallen invullen als hij leeg is, voor de lol
-            if (bordIsLeeg)
-            {
-                for(int val = 1; val <= 3; val++)
-                RandomPos(val);
-            }
-
             dt = DateTime.Now;
             bord = sudokuSolver.SolveBoard(bord);
             string DeltaTime = (DateTime.Now - dt).ToString();

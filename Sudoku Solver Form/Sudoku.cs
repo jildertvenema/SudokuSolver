@@ -2,14 +2,17 @@
 
 namespace Sudoku_Solver_Form
 {
-    class SudokuSolver
+    /// <summary>
+    /// Een sudoku oplosser, die sudoku's kan oplossen met behulp van algoritmes, backtracking en recursie.
+    /// </summary>
+    class SudokuSolver : BoardSolver
     {
         private const int size = 9;
         private int[,] bord;
         private int[,] inputBord;
         private NietMogelijk[,] nietMogelijk;
-        private int maxBackTracks = int.MaxValue;
-        private bool enableScan = true;
+        private int maxBackTracks;
+        private bool enableScan;
         private int backTracks;
         private int scanCount;
 
@@ -17,23 +20,39 @@ namespace Sudoku_Solver_Form
         public int BackTracks { get { return backTracks; } }
         public bool EnableScan { get { return enableScan; }set { enableScan = value; } }
 
+
+        /// <summary>
+        /// Een sudoku oplosser, die sudoku's kan oplossen met behulp van algoritmes, backtracking en recursie.
+        /// </summary>
+        /// <param name="MaxBackTracks">Maximum aantal backtracks, standaard is het maximum integer nummer</param>
+        /// <param name="EnableScan">Met EnableScan zal het proces veel sneller gaan, gaat getallen invullen voor het backtracken</param>
+        public SudokuSolver(int MaxBackTracks = int.MaxValue, bool EnableScan = true)
+        {
+            BoardSize = size;
+            BoardName = "Sudoku";
+
+            maxBackTracks = MaxBackTracks;
+            enableScan = EnableScan;
+        }
+
         /// <summary>
         /// Een sudoku bord oplossen.
         /// </summary>
         /// <param name="InputBord">2 dimentionale array met ingevulde getallen door de gebruiker.</param>
         /// <returns>Returned het opgeloste en ingevulde bord.</returns>
-        public int[,] SolveBoard(int[,] InputBord)
+        public override int[,] SolveBoard(int[,] InputBord)
         {
-            bord = new int[size, size];
+            //aantal variabelen op 0 zetten of decladeren
+            bord = new int[BoardSize, BoardSize];
             inputBord = InputBord;
             backTracks = 0;
-            nietMogelijk = new NietMogelijk[size, size];
+            nietMogelijk = new NietMogelijk[BoardSize, BoardSize];
             scanCount = 0;
 
-            //bord vullen met input getallen
-            for (int x = 0; x < size; x++)
+            //bord vullen met gegeven getallen van InputBord
+            for (int x = 0; x < BoardSize; x++)
             {
-                for (int y = 0; y < size; y++)
+                for (int y = 0; y < BoardSize; y++)
                 {
                     nietMogelijk[x, y] = new NietMogelijk();
                     bord[x, y] = InputBord[x, y];
@@ -42,16 +61,18 @@ namespace Sudoku_Solver_Form
 
 
             //de scan gaat kijken of hij al al getallen in kan vullen, en zolang dat lukt, gaat hij door
+            //dit is als voorbereiding van het backtracken, zo zal het proces veel sneller gaan
             if (enableScan) ScanSudoku();
 
-
+            //we solven het bord, beginnen op positie 0,0
+            //als het gelukt is, return het bord, anders trow Exception
             if (Solve(0, 0))
             {
                 return bord;
             }
             else
             {
-                throw new Exception("No solve boi");
+                throw new Exception("There is no possible solution for the given sudoku board");
             }
         }
 
@@ -62,9 +83,8 @@ namespace Sudoku_Solver_Form
         private void ScanSudoku()
         {
             scanCount++;
-            bool rule1Succes = false;
 
-            //Niet mogelijke getallen toevoegen
+            //Niet mogelijke getallen toevoegen, door voor elke positie, alle 9 values proberen of ze "safe" zijn met IsAllowed() methode
             for (int x = 0; x < 9; x++)
             {
                 for (int y = 0; y < 9; y++)
@@ -80,19 +100,13 @@ namespace Sudoku_Solver_Form
                         if (!IsAllowed(x,y,value) && !nietMogelijk[x, y].Numbers.Contains(value))
                         {
                             nietMogelijk[x, y].Numbers.Add(value);
-                            rule1Succes = true;
                         }
                     }
                 }
             }
 
-            if (rule1Succes)
-            {
-                ScanSudoku();
-                return;
-            }
 
-            //kijken welke getallen we nu al weten
+            //kijken welke getallen we nu al weten, door te kijken of er maar 1 positie is in een row/3x3, waar een bepaald getal mogelijk is
             for (int x = 0; x < 9; x++)
             {
                 for (int y = 0; y < 9; y++)
@@ -174,7 +188,7 @@ namespace Sudoku_Solver_Form
                 }
             }
 
-            //hier kijk ik of er ergens op een vakje/x-as/y-as 8 getallen niet mogelijk zijn, wat betekend dat er 1 mogelijk is
+            //hier wordt er gekeken of er ergens op een vakje/x-as/y-as 8 getallen niet mogelijk zijn, wat betekend dat er maar 1 mogelijk is
             for (int x = 0; x < 9; x++)
             {
                 for (int y = 0; y < 9; y++)
@@ -197,6 +211,8 @@ namespace Sudoku_Solver_Form
             }
 
             //rule 4 op de x-as
+            //rule 4 is kijken of er in 1 x of y positie een bepaald getal moet staan, wat betekend dat er ergens anders op die x of y positie
+            //dat zelfde getal niet mag staan
             for (int x = 0; x < 9; x++)
             {
                 int vakXStart = 0;
@@ -356,6 +372,9 @@ namespace Sudoku_Solver_Form
                 }
             }
 
+            //Als we hier zijn gekomen, betekend het dat er geen veranderingen zijn gedaan in deze scan.
+            //De scan is dus voltooid.
+            //ScanComplete event aanroepen zodat andere classes weten dat de scan klaar is, en je daar feedback voor kan geven aan de user.
             ScanComplete.Invoke(this, EventArgs.Empty);
         }
 
@@ -365,20 +384,20 @@ namespace Sudoku_Solver_Form
         /// </summary>
         /// <param name="x">x-positie</param>
         /// <param name="y">y-positie</param>
-        /// <returns></returns>
+        /// <returns>Oplossing gevonden</returns>
         private bool Solve(int x, int y)
         {
             for (int value = 1; value <= 9; value++)
             {
                 if (IsAllowed(x, y, value))
                 {
-                    //invullen
+                    //als hij nog niet is ingevuld, vul hem in.
                     if (bord[x, y] == 0)
                     {
                         bord[x, y] = value;
                     }
 
-
+                    //Volgende positie opzoeken
                     int nextX;
                     int nextY;
 
@@ -392,11 +411,17 @@ namespace Sudoku_Solver_Form
                         nextX = x + 1;
                         nextY = y;
                     }
+
+                    //Recursief de volgende positie aanroepen
                     if (backTracks > maxBackTracks || (nextY == 9) || Solve(nextX, nextY)) return true;
+
+                    //Backtracken als we hier zijn gekomen
                     bord[x, y] = inputBord[x, y];
                     backTracks++;
                 }
             }
+
+            //geen oplossing mogelijk
             return false;
         }
 
@@ -414,8 +439,11 @@ namespace Sudoku_Solver_Form
             //als hij al ingevuld is return true
             if (bord[x, y] != 0) return true;
 
-            //kijken of het getal al in het 3x3 vak zit
+            //Als we al weten van de scans of het getal er niet mag staan, return false
+            //Bespaard veel tijd
+            if (nietMogelijk[x, y].Numbers.IndexOf(value) != -1) return false;
 
+            //kijken of het getal al in het 3x3 vak zit
             int vakXStart = 0;
             int vakYStart = 0;
 
@@ -441,7 +469,7 @@ namespace Sudoku_Solver_Form
                 else if (y <= 8) vakYStart = 6;
             }
 
-            
+            //Als hij er al in staat, return false
             for (int i = vakXStart; i < vakXStart + 3; i++)
             {
                 for (int t = vakYStart; t < vakYStart + 3; t++)
@@ -450,7 +478,7 @@ namespace Sudoku_Solver_Form
                 }
             }
 
-            //x en y as
+            //Verticaal en horizontaal kijken of het getal er al staat, zo ja: return false
             for (int i = 0; i <= 8; i++)
             {
                 if (bord[x, i] == value || bord[i, y] == value) return false;
